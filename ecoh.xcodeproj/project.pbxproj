@@ -1,0 +1,754 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		24B8C00DEE81C557B1E90845 /* Pods_ecoh.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E36EA4D0A110684F1ADD9FE /* Pods_ecoh.framework */; };
+		94050C261D7DDA880093D224 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94050C251D7DDA880093D224 /* SWRevealViewController.m */; };
+		94050C281D7DE3AD0093D224 /* MenuBackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94050C271D7DE3AD0093D224 /* MenuBackViewController.swift */; };
+		94070DD61CFFCDF900A3B091 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94070DD51CFFCDF900A3B091 /* CoreLocation.framework */; };
+		94132A3F1CFBC94800852F80 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 94132A3E1CFBC94800852F80 /* Podfile */; };
+		94132A411CFBDB8D00852F80 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94132A401CFBDB8D00852F80 /* MapKit.framework */; };
+		9413F5C91CFB8A6800F07347 /* RatingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9413F5C81CFB8A6800F07347 /* RatingCell.swift */; };
+		941D76A51D47B52000CC6B05 /* Venue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941D76A41D47B51F00CC6B05 /* Venue.swift */; };
+		9422AD8C1D03CAA600A8A574 /* Vibe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9422AD8B1D03CAA600A8A574 /* Vibe.swift */; };
+		9447F8A31CFA27B200184B83 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9447F8A21CFA27B200184B83 /* AppDelegate.swift */; };
+		9447F8A51CFA27B200184B83 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9447F8A41CFA27B200184B83 /* ViewController.swift */; };
+		9447F8A81CFA27B200184B83 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9447F8A61CFA27B200184B83 /* Main.storyboard */; };
+		9447F8AB1CFA27B200184B83 /* ecoh.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9447F8A91CFA27B200184B83 /* ecoh.xcdatamodeld */; };
+		9447F8AD1CFA27B200184B83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9447F8AC1CFA27B200184B83 /* Assets.xcassets */; };
+		9447F8B01CFA27B200184B83 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9447F8AE1CFA27B200184B83 /* LaunchScreen.storyboard */; };
+		9447F8BB1CFA27B200184B83 /* ecohTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9447F8BA1CFA27B200184B83 /* ecohTests.swift */; };
+		9447F8C61CFA27B200184B83 /* ecohUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9447F8C51CFA27B200184B83 /* ecohUITests.swift */; };
+		945D83D11CFC33DA004676CF /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945D83D01CFC33DA004676CF /* RegisterViewController.swift */; };
+		945D83D31CFC8464004676CF /* TravelView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 945D83D21CFC8464004676CF /* TravelView.xib */; };
+		945D83D51CFC84E9004676CF /* TravelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945D83D41CFC84E9004676CF /* TravelView.swift */; };
+		948CFC151D4880B0006531F1 /* TutorialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948CFC141D4880B0006531F1 /* TutorialViewController.swift */; };
+		948CFC171D492C7E006531F1 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 948CFC161D492C7E006531F1 /* ProfileViewController.swift */; };
+		94A738431D6C9D9900E75347 /* VenueDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A738421D6C9D9900E75347 /* VenueDetailViewController.swift */; };
+		94AA4F551CFB479A00D5DC4F /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA4F541CFB479A00D5DC4F /* StartViewController.swift */; };
+		94AA4F5D1CFB596400D5DC4F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AA4F5C1CFB596400D5DC4F /* LoginViewController.swift */; };
+		94E541531D78F65F00708722 /* MapData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E541521D78F65F00708722 /* MapData.swift */; };
+		94F781381D9C3009000C553D /* InviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F781371D9C3009000C553D /* InviteViewController.swift */; };
+		94F7813C1DA3241E000C553D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94F7813B1DA3241E000C553D /* GoogleService-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9447F8B71CFA27B200184B83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9447F8971CFA27B200184B83 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9447F89E1CFA27B200184B83;
+			remoteInfo = ecoh;
+		};
+		9447F8C21CFA27B200184B83 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9447F8971CFA27B200184B83 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9447F89E1CFA27B200184B83;
+			remoteInfo = ecoh;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		94AB8FF21DC26C9A00BD5CEE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		37C8459B4A65274D6CF00303 /* Pods-ecoh.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecoh.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ecoh/Pods-ecoh.debug.xcconfig"; sourceTree = "<group>"; };
+		582ECD1644716D86577E158C /* Pods-ecoh.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ecoh.release.xcconfig"; path = "Pods/Target Support Files/Pods-ecoh/Pods-ecoh.release.xcconfig"; sourceTree = "<group>"; };
+		6E36EA4D0A110684F1ADD9FE /* Pods_ecoh.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ecoh.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		94050C231D7DDA860093D224 /* ecoh-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ecoh-Bridging-Header.h"; sourceTree = "<group>"; };
+		94050C241D7DDA880093D224 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
+		94050C251D7DDA880093D224 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		94050C271D7DE3AD0093D224 /* MenuBackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBackViewController.swift; sourceTree = "<group>"; };
+		94070DD51CFFCDF900A3B091 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		94132A3E1CFBC94800852F80 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		94132A401CFBDB8D00852F80 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		9413F5C81CFB8A6800F07347 /* RatingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RatingCell.swift; sourceTree = "<group>"; };
+		941D76A41D47B51F00CC6B05 /* Venue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Venue.swift; sourceTree = "<group>"; };
+		9422AD8B1D03CAA600A8A574 /* Vibe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vibe.swift; sourceTree = "<group>"; };
+		9447F89F1CFA27B200184B83 /* ecoh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ecoh.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9447F8A21CFA27B200184B83 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9447F8A41CFA27B200184B83 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		9447F8A71CFA27B200184B83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9447F8AA1CFA27B200184B83 /* ecoh.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ecoh.xcdatamodel; sourceTree = "<group>"; };
+		9447F8AC1CFA27B200184B83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9447F8AF1CFA27B200184B83 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9447F8B11CFA27B200184B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9447F8B61CFA27B200184B83 /* ecohTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecohTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9447F8BA1CFA27B200184B83 /* ecohTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecohTests.swift; sourceTree = "<group>"; };
+		9447F8BC1CFA27B200184B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9447F8C11CFA27B200184B83 /* ecohUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ecohUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9447F8C51CFA27B200184B83 /* ecohUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecohUITests.swift; sourceTree = "<group>"; };
+		9447F8C71CFA27B200184B83 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		945D83D01CFC33DA004676CF /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		945D83D21CFC8464004676CF /* TravelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TravelView.xib; sourceTree = "<group>"; };
+		945D83D41CFC84E9004676CF /* TravelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelView.swift; sourceTree = "<group>"; };
+		948CFC141D4880B0006531F1 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
+		948CFC161D492C7E006531F1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		94A738421D6C9D9900E75347 /* VenueDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueDetailViewController.swift; sourceTree = "<group>"; };
+		94AA4F541CFB479A00D5DC4F /* StartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
+		94AA4F5C1CFB596400D5DC4F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		94E541521D78F65F00708722 /* MapData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapData.swift; sourceTree = "<group>"; };
+		94F781371D9C3009000C553D /* InviteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InviteViewController.swift; sourceTree = "<group>"; };
+		94F7813B1DA3241E000C553D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		9447F89C1CFA27B200184B83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94070DD61CFFCDF900A3B091 /* CoreLocation.framework in Frameworks */,
+				94132A411CFBDB8D00852F80 /* MapKit.framework in Frameworks */,
+				24B8C00DEE81C557B1E90845 /* Pods_ecoh.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8B31CFA27B200184B83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8BE1CFA27B200184B83 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1325DAA9CC0F717A7AD5F082 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				37C8459B4A65274D6CF00303 /* Pods-ecoh.debug.xcconfig */,
+				582ECD1644716D86577E158C /* Pods-ecoh.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		34F6B0225A673AE02780388A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				94070DD51CFFCDF900A3B091 /* CoreLocation.framework */,
+				94132A401CFBDB8D00852F80 /* MapKit.framework */,
+				6E36EA4D0A110684F1ADD9FE /* Pods_ecoh.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		941D76A11D46CB8200CC6B05 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				9447F8A61CFA27B200184B83 /* Main.storyboard */,
+				9447F8AE1CFA27B200184B83 /* LaunchScreen.storyboard */,
+				945D83D21CFC8464004676CF /* TravelView.xib */,
+				945D83D41CFC84E9004676CF /* TravelView.swift */,
+				9413F5C81CFB8A6800F07347 /* RatingCell.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		941D76A21D46CB8B00CC6B05 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9422AD8B1D03CAA600A8A574 /* Vibe.swift */,
+				941D76A41D47B51F00CC6B05 /* Venue.swift */,
+				94E541521D78F65F00708722 /* MapData.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		941D76A31D46CB9100CC6B05 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				94AA4F541CFB479A00D5DC4F /* StartViewController.swift */,
+				94AA4F5C1CFB596400D5DC4F /* LoginViewController.swift */,
+				945D83D01CFC33DA004676CF /* RegisterViewController.swift */,
+				9447F8A41CFA27B200184B83 /* ViewController.swift */,
+				94A738421D6C9D9900E75347 /* VenueDetailViewController.swift */,
+				948CFC161D492C7E006531F1 /* ProfileViewController.swift */,
+				948CFC141D4880B0006531F1 /* TutorialViewController.swift */,
+				94050C271D7DE3AD0093D224 /* MenuBackViewController.swift */,
+				94F781371D9C3009000C553D /* InviteViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		9447F8961CFA27B200184B83 = {
+			isa = PBXGroup;
+			children = (
+				94132A3E1CFBC94800852F80 /* Podfile */,
+				9447F8A11CFA27B200184B83 /* ecoh */,
+				9447F8B91CFA27B200184B83 /* ecohTests */,
+				9447F8C41CFA27B200184B83 /* ecohUITests */,
+				9447F8A01CFA27B200184B83 /* Products */,
+				1325DAA9CC0F717A7AD5F082 /* Pods */,
+				34F6B0225A673AE02780388A /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		9447F8A01CFA27B200184B83 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9447F89F1CFA27B200184B83 /* ecoh.app */,
+				9447F8B61CFA27B200184B83 /* ecohTests.xctest */,
+				9447F8C11CFA27B200184B83 /* ecohUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		9447F8A11CFA27B200184B83 /* ecoh */ = {
+			isa = PBXGroup;
+			children = (
+				941D76A21D46CB8B00CC6B05 /* Model */,
+				941D76A11D46CB8200CC6B05 /* View */,
+				941D76A31D46CB9100CC6B05 /* Controller */,
+				9447F8AC1CFA27B200184B83 /* Assets.xcassets */,
+				9447F8B11CFA27B200184B83 /* Info.plist */,
+				94F7813B1DA3241E000C553D /* GoogleService-Info.plist */,
+				9447F8A91CFA27B200184B83 /* ecoh.xcdatamodeld */,
+				9447F8A21CFA27B200184B83 /* AppDelegate.swift */,
+				94050C241D7DDA880093D224 /* SWRevealViewController.h */,
+				94050C251D7DDA880093D224 /* SWRevealViewController.m */,
+				94050C231D7DDA860093D224 /* ecoh-Bridging-Header.h */,
+			);
+			path = ecoh;
+			sourceTree = "<group>";
+		};
+		9447F8B91CFA27B200184B83 /* ecohTests */ = {
+			isa = PBXGroup;
+			children = (
+				9447F8BA1CFA27B200184B83 /* ecohTests.swift */,
+				9447F8BC1CFA27B200184B83 /* Info.plist */,
+			);
+			path = ecohTests;
+			sourceTree = "<group>";
+		};
+		9447F8C41CFA27B200184B83 /* ecohUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9447F8C51CFA27B200184B83 /* ecohUITests.swift */,
+				9447F8C71CFA27B200184B83 /* Info.plist */,
+			);
+			path = ecohUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9447F89E1CFA27B200184B83 /* ecoh */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9447F8CA1CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecoh" */;
+			buildPhases = (
+				626DEDD1FB1810C2A0FC8078 /* 📦 Check Pods Manifest.lock */,
+				9447F89B1CFA27B200184B83 /* Sources */,
+				9447F89C1CFA27B200184B83 /* Frameworks */,
+				9447F89D1CFA27B200184B83 /* Resources */,
+				AD56084A7A475F293AE7B9FB /* 📦 Embed Pods Frameworks */,
+				5FA70C57DAC90EE53286E0BD /* 📦 Copy Pods Resources */,
+				94AB8FF21DC26C9A00BD5CEE /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ecoh;
+			productName = ecoh;
+			productReference = 9447F89F1CFA27B200184B83 /* ecoh.app */;
+			productType = "com.apple.product-type.application";
+		};
+		9447F8B51CFA27B200184B83 /* ecohTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9447F8CD1CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecohTests" */;
+			buildPhases = (
+				9447F8B21CFA27B200184B83 /* Sources */,
+				9447F8B31CFA27B200184B83 /* Frameworks */,
+				9447F8B41CFA27B200184B83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9447F8B81CFA27B200184B83 /* PBXTargetDependency */,
+			);
+			name = ecohTests;
+			productName = ecohTests;
+			productReference = 9447F8B61CFA27B200184B83 /* ecohTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		9447F8C01CFA27B200184B83 /* ecohUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9447F8D01CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecohUITests" */;
+			buildPhases = (
+				9447F8BD1CFA27B200184B83 /* Sources */,
+				9447F8BE1CFA27B200184B83 /* Frameworks */,
+				9447F8BF1CFA27B200184B83 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9447F8C31CFA27B200184B83 /* PBXTargetDependency */,
+			);
+			name = ecohUITests;
+			productName = ecohUITests;
+			productReference = 9447F8C11CFA27B200184B83 /* ecohUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		9447F8971CFA27B200184B83 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Ecoh Technologies, LLC";
+				TargetAttributes = {
+					9447F89E1CFA27B200184B83 = {
+						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = MDLYU7EWPF;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					9447F8B51CFA27B200184B83 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 9447F89E1CFA27B200184B83;
+					};
+					9447F8C01CFA27B200184B83 = {
+						CreatedOnToolsVersion = 7.3.1;
+						TestTargetID = 9447F89E1CFA27B200184B83;
+					};
+				};
+			};
+			buildConfigurationList = 9447F89A1CFA27B200184B83 /* Build configuration list for PBXProject "ecoh" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9447F8961CFA27B200184B83;
+			productRefGroup = 9447F8A01CFA27B200184B83 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9447F89E1CFA27B200184B83 /* ecoh */,
+				9447F8B51CFA27B200184B83 /* ecohTests */,
+				9447F8C01CFA27B200184B83 /* ecohUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9447F89D1CFA27B200184B83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				945D83D31CFC8464004676CF /* TravelView.xib in Resources */,
+				94132A3F1CFBC94800852F80 /* Podfile in Resources */,
+				9447F8B01CFA27B200184B83 /* LaunchScreen.storyboard in Resources */,
+				9447F8AD1CFA27B200184B83 /* Assets.xcassets in Resources */,
+				9447F8A81CFA27B200184B83 /* Main.storyboard in Resources */,
+				94F7813C1DA3241E000C553D /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8B41CFA27B200184B83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8BF1CFA27B200184B83 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		5FA70C57DAC90EE53286E0BD /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ecoh/Pods-ecoh-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		626DEDD1FB1810C2A0FC8078 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AD56084A7A475F293AE7B9FB /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ecoh/Pods-ecoh-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9447F89B1CFA27B200184B83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9447F8AB1CFA27B200184B83 /* ecoh.xcdatamodeld in Sources */,
+				94F781381D9C3009000C553D /* InviteViewController.swift in Sources */,
+				94AA4F551CFB479A00D5DC4F /* StartViewController.swift in Sources */,
+				94050C261D7DDA880093D224 /* SWRevealViewController.m in Sources */,
+				945D83D11CFC33DA004676CF /* RegisterViewController.swift in Sources */,
+				941D76A51D47B52000CC6B05 /* Venue.swift in Sources */,
+				9447F8A51CFA27B200184B83 /* ViewController.swift in Sources */,
+				94AA4F5D1CFB596400D5DC4F /* LoginViewController.swift in Sources */,
+				9447F8A31CFA27B200184B83 /* AppDelegate.swift in Sources */,
+				9422AD8C1D03CAA600A8A574 /* Vibe.swift in Sources */,
+				945D83D51CFC84E9004676CF /* TravelView.swift in Sources */,
+				948CFC171D492C7E006531F1 /* ProfileViewController.swift in Sources */,
+				94A738431D6C9D9900E75347 /* VenueDetailViewController.swift in Sources */,
+				94050C281D7DE3AD0093D224 /* MenuBackViewController.swift in Sources */,
+				948CFC151D4880B0006531F1 /* TutorialViewController.swift in Sources */,
+				94E541531D78F65F00708722 /* MapData.swift in Sources */,
+				9413F5C91CFB8A6800F07347 /* RatingCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8B21CFA27B200184B83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9447F8BB1CFA27B200184B83 /* ecohTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9447F8BD1CFA27B200184B83 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9447F8C61CFA27B200184B83 /* ecohUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9447F8B81CFA27B200184B83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9447F89E1CFA27B200184B83 /* ecoh */;
+			targetProxy = 9447F8B71CFA27B200184B83 /* PBXContainerItemProxy */;
+		};
+		9447F8C31CFA27B200184B83 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9447F89E1CFA27B200184B83 /* ecoh */;
+			targetProxy = 9447F8C21CFA27B200184B83 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		9447F8A61CFA27B200184B83 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9447F8A71CFA27B200184B83 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		9447F8AE1CFA27B200184B83 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9447F8AF1CFA27B200184B83 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9447F8C81CFA27B200184B83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		9447F8C91CFA27B200184B83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9447F8CB1CFA27B200184B83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37C8459B4A65274D6CF00303 /* Pods-ecoh.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Chiu (HUK2JHXKZ7)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ryan Chiu (HUK2JHXKZ7)";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = ecoh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ecoh/ecoh-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
+			};
+			name = Debug;
+		};
+		9447F8CC1CFA27B200184B83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 582ECD1644716D86577E158C /* Pods-ecoh.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ecoh Technologies LLC (MDLYU7EWPF)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ecoh Technologies LLC (MDLYU7EWPF)";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				INFOPLIST_FILE = ecoh/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "ecoh/ecoh-Bridging-Header.h";
+				SWIFT_VERSION = 2.3;
+			};
+			name = Release;
+		};
+		9447F8CE1CFA27B200184B83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ecohTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ecoh.app/ecoh";
+			};
+			name = Debug;
+		};
+		9447F8CF1CFA27B200184B83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = ecohTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ecoh.app/ecoh";
+			};
+			name = Release;
+		};
+		9447F8D11CFA27B200184B83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ecohUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ecoh;
+			};
+			name = Debug;
+		};
+		9447F8D21CFA27B200184B83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = ecohUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ecoh.ecohUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = ecoh;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9447F89A1CFA27B200184B83 /* Build configuration list for PBXProject "ecoh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9447F8C81CFA27B200184B83 /* Debug */,
+				9447F8C91CFA27B200184B83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9447F8CA1CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecoh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9447F8CB1CFA27B200184B83 /* Debug */,
+				9447F8CC1CFA27B200184B83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9447F8CD1CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecohTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9447F8CE1CFA27B200184B83 /* Debug */,
+				9447F8CF1CFA27B200184B83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9447F8D01CFA27B200184B83 /* Build configuration list for PBXNativeTarget "ecohUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9447F8D11CFA27B200184B83 /* Debug */,
+				9447F8D21CFA27B200184B83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9447F8A91CFA27B200184B83 /* ecoh.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9447F8AA1CFA27B200184B83 /* ecoh.xcdatamodel */,
+			);
+			currentVersion = 9447F8AA1CFA27B200184B83 /* ecoh.xcdatamodel */;
+			path = ecoh.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 9447F8971CFA27B200184B83 /* Project object */;
+}
