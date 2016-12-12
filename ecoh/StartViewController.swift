@@ -31,25 +31,25 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
                                   "Rate your vibe once you're there, so that others can join in!")
         self.pageImages = NSArray(objects: "EcohPulse", "Directions", "Ratings")
         
-        self.pageViewController = self.storyboard?.instantiateViewControllerWithIdentifier("PageViewController") as! UIPageViewController
+        self.pageViewController = self.storyboard?.instantiateViewController(withIdentifier: "PageViewController") as! UIPageViewController
         self.pageViewController.dataSource = self
         
         let startVC = self.viewControllerAtIndex(0) as TutorialViewController
         let viewControllers = NSArray(object: startVC)
         
-        self.pageViewController.setViewControllers(viewControllers as? [UIViewController], direction: .Forward, animated: true, completion: nil)
-        self.pageViewController.view.frame = CGRectMake(0, 30, self.view.frame.width, self.view.frame.size.height * 0.7)
+        self.pageViewController.setViewControllers(viewControllers as? [UIViewController], direction: .forward, animated: true, completion: nil)
+        self.pageViewController.view.frame = CGRect(x: 0, y: 30, width: self.view.frame.width, height: self.view.frame.size.height * 0.7)
         
         self.addChildViewController(self.pageViewController)
         self.view.addSubview(self.pageViewController.view)
         
-        self.pageViewController.didMoveToParentViewController(self)
+        self.pageViewController.didMove(toParentViewController: self)
         
         // Do any additional setup after loading the view, typically from a nib.
         self.setupAesthetics()
     }
     
-    @IBAction func buttonPress(sender: AnyObject) {
+    @IBAction func buttonPress(_ sender: AnyObject) {
         //player.pause()
     }
     
@@ -67,22 +67,22 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "playerItemDidReachEnd:", name: AVPlayerItemDidPlayToEndTimeNotification, object: self.player.currentItem)*/
         
         // Static wallpaper background
-        let backgroundImage = UIImageView(frame: UIScreen.mainScreen().bounds)
+        let backgroundImage = UIImageView(frame: UIScreen.main.bounds)
         backgroundImage.image = UIImage(named: "Wallpaper")
-        self.view.insertSubview(backgroundImage, atIndex: 0)
+        self.view.insertSubview(backgroundImage, at: 0)
     }
     
-    func playerItemDidReachEnd(notification: NSNotification) {
-        self.player.seekToTime(kCMTimeZero)
+    func playerItemDidReachEnd(_ notification: Notification) {
+        self.player.seek(to: kCMTimeZero)
         self.player.play()
     }
     
-    func viewControllerAtIndex(index: Int) -> TutorialViewController {
+    func viewControllerAtIndex(_ index: Int) -> TutorialViewController {
         if ((self.pageTitles.count == 0) || (index >= self.pageTitles.count)) {
             return TutorialViewController()
         }
         
-        let vc: TutorialViewController = self.storyboard?.instantiateViewControllerWithIdentifier("TutorialViewController") as! TutorialViewController
+        let vc: TutorialViewController = self.storyboard?.instantiateViewController(withIdentifier: "TutorialViewController") as! TutorialViewController
         
         vc.imageFile = self.pageImages[index] as! String
         vc.titleText = self.pageTitles[index] as! String
@@ -92,7 +92,7 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
     }
     
     // MARK -- Page View Controller datasource
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         let vc = viewController as! TutorialViewController
         var index = vc.pageIndex as Int
     
@@ -104,7 +104,7 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
         return self.viewControllerAtIndex(index)
     }
     
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         let vc = viewController as! TutorialViewController
         var index = vc.pageIndex as Int
 
@@ -121,28 +121,28 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
         return self.viewControllerAtIndex(index)
     }
     
-    func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
         return self.pageTitles.count
     }
     
-    func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         return 0
     }
     
     func setupAesthetics() {
         // Bring UI to front
-        self.view.bringSubviewToFront(self.loginButton)
-        self.view.bringSubviewToFront(self.registerButton)
-        self.view.bringSubviewToFront(self.logo)
+        self.view.bringSubview(toFront: self.loginButton)
+        self.view.bringSubview(toFront: self.registerButton)
+        self.view.bringSubview(toFront: self.logo)
         
         // Make buttons look pretty
         self.loginButton.layer.cornerRadius = 5
         self.loginButton.layer.borderWidth = 2
-        self.loginButton.layer.borderColor = UIColor.whiteColor().CGColor
+        self.loginButton.layer.borderColor = UIColor.white.cgColor
         
         self.registerButton.layer.cornerRadius = 5
         self.registerButton.layer.borderWidth = 2
-        self.registerButton.layer.borderColor = UIColor.whiteColor().CGColor
+        self.registerButton.layer.borderColor = UIColor.white.cgColor
     }
     
     override func didReceiveMemoryWarning() {
@@ -151,12 +151,12 @@ class StartViewController: UIViewController, UIPageViewControllerDataSource {
     }
     
     // Changing Status Bar
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         // LightContent
-        return UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.lightContent
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
 }

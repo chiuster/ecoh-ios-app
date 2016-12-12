@@ -30,18 +30,18 @@ class InviteViewController: UIViewController, UINavigationControllerDelegate {
         self.hideKeyboardWhenTappedAround()
         
         self.menuButton.target = self.revealViewController()
-        self.menuButton.action = Selector("revealToggle:")
+        self.menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         
         self.setupAesthetics()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         let uid = FIRAuth.auth()?.currentUser?.uid
         let ref = FIRDatabase.database().reference()
         
         // Load promo code
-        ref.child("users").child(uid!).observeSingleEventOfType(.ChildAdded, withBlock: { (snapshot) in
+        ref.child("users").child(uid!).observeSingleEvent(of: .childAdded, with: { (snapshot) in
             // Get user value
             if let promo = snapshot.value as? String {
                 self.promoCodeLabel.text = promo
@@ -53,10 +53,9 @@ class InviteViewController: UIViewController, UINavigationControllerDelegate {
         }
         
         // Load user points
-        ref.child("users").child(uid!).child("userInfo").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            // Get user value
-            print(snapshot.value)
-            if let points = snapshot.value!["points"] as? Int {
+        ref.child("users").child(uid!).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
+            let snapshotValue = snapshot.value as? NSDictionary
+            if let points = snapshotValue?["points"] as? Int {
                 self.pointsLabel.text = "\(points)"
             } else {
                 self.pointsLabel.text = "0"
@@ -66,11 +65,11 @@ class InviteViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
+    func showAlert(_ title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -79,20 +78,20 @@ class InviteViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func setupAesthetics() {
-        self.promoCodeLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        self.promoCodeLabel.layer.borderColor = UIColor.white.cgColor
         self.promoCodeLabel.layer.borderWidth = 2
         self.promoCodeLabel.layer.cornerRadius = 5
         
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.white
         
         //self.tableView.setEditing(true, animated: true)
         //self.sendButton.enabled = false
     }
     
-    @IBAction func share(sender: AnyObject) {
+    @IBAction func share(_ sender: AnyObject) {
         let shareText = ["Check out Ecoh, the social guide! Use the following code for a free drink: \(self.promoCodeLabel.text!)", "http://www.ecohapp.com"]
         let controller: UIActivityViewController = UIActivityViewController(activityItems: shareText, applicationActivities: nil)
-        self.presentViewController(controller, animated: true, completion: nil)
+        self.present(controller, animated: true, completion: nil)
     }
     
     /*func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

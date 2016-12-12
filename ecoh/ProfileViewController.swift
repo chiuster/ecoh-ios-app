@@ -32,26 +32,27 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.hideKeyboardWhenTappedAround()
         
         self.menuButton.target = self.revealViewController()
-        self.menuButton.action = Selector("revealToggle:")
+        self.menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
         
         self.setupAesthetics()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.loadingView.hidden = false
+    override func viewWillAppear(_ animated: Bool) {
+        self.loadingView.isHidden = false
         self.activityIndicator.startAnimating()
         
         // Pull current user info from Firebase and pre-fill fields
         let uid = FIRAuth.auth()?.currentUser?.uid
         let ref = FIRDatabase.database().reference()
         
-        ref.child("users").child(uid!).observeSingleEventOfType(.Value, withBlock: { (snapshot) in
-            let userPhoto = snapshot.value!["userPhoto"] as? String
+        ref.child("users").child(uid!).observeSingleEvent(of: .value, with: { (snapshot) in
+            let snapshotValue = snapshot.value as? NSDictionary
+            let userPhoto = snapshotValue?["userPhoto"] as? String
             
             if userPhoto != nil {
-                let url = NSURL(string: userPhoto!)
-                if let data = NSData(contentsOfURL: url!) {
+                let url = URL(string: userPhoto!)
+                if let data = try? Data(contentsOf: url!) {
                     self.profilePicture.image = UIImage(data: data)
                 }
             }
@@ -59,38 +60,39 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             print(error.localizedDescription)
         }
         
-        ref.child("users").child(uid!).child("userInfo").observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+        ref.child("users").child(uid!).child("userInfo").observeSingleEvent(of: .value, with: { (snapshot) in
             // Get user value
-            let firstName = snapshot.value!["firstName"] as! String
-            let lastName = snapshot.value!["lastName"] as! String
+            let snapshotValue = snapshot.value as? NSDictionary
+            let firstName = snapshotValue?["firstName"] as! String
+            let lastName = snapshotValue?["lastName"] as! String
             let email = FIRAuth.auth()?.currentUser?.email!
             
             self.firstNameField.text = firstName
             self.lastNameField.text = lastName
             self.emailField.text = email
             
-            self.loadingView.hidden = true
+            self.loadingView.isHidden = true
         }) { (error) in
             print(error.localizedDescription)
         }
     }
     
-    @IBAction func changeProfilePicture(sender: AnyObject) {
+    @IBAction func changeProfilePicture(_ sender: AnyObject) {
         let myPickerController = UIImagePickerController()
         myPickerController.delegate = self
-        myPickerController.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        myPickerController.sourceType = UIImagePickerControllerSourceType.photoLibrary
         
-        self.presentViewController(myPickerController, animated: true, completion: nil)
+        self.present(myPickerController, animated: true, completion: nil)
     }
     
-    @IBAction func saveProfile(sender: AnyObject) {
+    @IBAction func saveProfile(_ sender: AnyObject) {
         let firstName = self.firstNameField.text
         let lastName = self.lastNameField.text
         let email = self.emailField.text
         let password1 = self.passwordField1.text
         let password2 = self.passwordField2.text
         
-        self.loadingView.hidden = false
+        self.loadingView.isHidden = false
         
         // Check if user wanted to change password (i.e. if password1 & password2 != "")
         if (verifyFields(firstName!, lastName: lastName!, email: email!, password1: password1!, password2: password2!)) {
@@ -120,16 +122,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             let ref = FIRDatabase.database().reference()
             ref.child("users").child(uid!).child("userInfo").setValue(["firstName": firstName!, "lastName": lastName!])
             
-            self.loadingView.hidden = true
+            self.loadingView.isHidden = true
         }
     }
     
     // Checks if all filled out fields meet requirements before saving to Firebase
-    func verifyFields(firstName: String, lastName: String, email: String, password1: String, password2: String) -> Bool {
+    func verifyFields(_ firstName: String, lastName: String, email: String, password1: String, password2: String) -> Bool {
         if (firstName == "" || lastName == "") {
             showAlert("Name Empty", message: "Please fill out your first and last name.")
             return false
-        } else if (!email.containsString("@")) {
+        } else if (!email.contains("@")) {
             showAlert("Invalid Email", message: "Please enter a valid email address.")
             return false
         } else if (password1 != password2) {
@@ -142,29 +144,29 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         return true
     }
     
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
+    func showAlert(_ title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         // Set local profile picture first, the upload file onto Firebase
         let localFile = info[UIImagePickerControllerOriginalImage] as? UIImage
         
         self.profilePicture.image = localFile
         self.profilePicture.layer.cornerRadius = 50.0
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
         
         let uid = FIRAuth.auth()?.currentUser?.uid
-        let storageRef = FIRStorage.storage().referenceForURL("gs://project-64989311639038962.appspot.com/\(uid).jpg")
+        let storageRef = FIRStorage.storage().reference(forURL: "gs://project-64989311639038962.appspot.com/\(uid).jpg")
         let databaseRef = FIRDatabase.database().reference()
         
-        var data = NSData()
+        var data = Data()
         data = UIImageJPEGRepresentation(localFile!, 0.8)!
         
-        storageRef.putData(data, metadata: nil) { metadata, error in
+        storageRef.put(data, metadata: nil) { metadata, error in
             if (error != nil) {
                 // Uh-oh, an error occurred!
                 print("Profile picture upload error: \(error)")
@@ -188,7 +190,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         self.saveButton.layer.cornerRadius = 5
         
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor();
+        self.navigationController!.navigationBar.tintColor = UIColor.white;
         
         self.loadingView.layer.masksToBounds = false
         self.loadingView.clipsToBounds = true

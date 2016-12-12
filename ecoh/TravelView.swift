@@ -36,11 +36,11 @@ class TravelView : UIView {
     }
     
     class func instanceFromNib() -> UIView {
-        return UINib(nibName: "TravelView", bundle: nil).instantiateWithOwner(nil, options: nil)[0] as! UIView
+        return UINib(nibName: "TravelView", bundle: nil).instantiate(withOwner: nil, options: nil)[0] as! UIView
     }
     
     // When user pushes the "Get Directions" button on the app
-    @IBAction func getDirections(sender: AnyObject) {
+    @IBAction func getDirections(_ sender: AnyObject) {
         let geoCoder = CLGeocoder()
         
         geoCoder.geocodeAddressString(addressLabel.text!, completionHandler:
@@ -56,7 +56,7 @@ class TravelView : UIView {
                     // Get directions to address via Apple Maps
                     self.showMap()
                 }
-        })
+        } as! CLGeocodeCompletionHandler)
     }
     
     // Get directions to address via Apple Maps
@@ -65,7 +65,7 @@ class TravelView : UIView {
         let place = MKPlacemark(coordinate: coords!, addressDictionary: addressDict)
         let mapItem = MKMapItem(placemark: place)
         let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        mapItem.openInMapsWithLaunchOptions(options)
+        mapItem.openInMaps(launchOptions: options)
     }
 }
 

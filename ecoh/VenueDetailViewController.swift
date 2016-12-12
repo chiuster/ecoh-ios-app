@@ -14,6 +14,30 @@ import MapKit
 import Firebase
 import GooglePlaces
 import GoogleMaps
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class VenueDetailViewController : UIViewController {
     
@@ -56,8 +80,8 @@ class VenueDetailViewController : UIViewController {
         loadData()
     }
     
-    @IBAction func goToWebsite(sender: AnyObject) {
-        UIApplication.sharedApplication().openURL(NSURL(string: self.website)!)
+    @IBAction func goToWebsite(_ sender: AnyObject) {
+        UIApplication.shared.openURL(URL(string: self.website)!)
     }
     
     func loadData() {
@@ -78,8 +102,8 @@ class VenueDetailViewController : UIViewController {
                 
                 if let website = place.website {
                     self.website = website.absoluteString
-                    self.websiteLabel.text = website.absoluteString.stringByReplacingOccurrencesOfString("http://", withString: "www.").stringByReplacingOccurrencesOfString("https://", withString: "www.")
-                    self.websiteButton.hidden = false
+                    self.websiteLabel.text = website.absoluteString.replacingOccurrences(of: "http://", with: "www.").replacingOccurrences(of: "https://", with: "www.")
+                    self.websiteButton.isHidden = false
                 }
                 
                 switch (place.priceLevel.rawValue) {
@@ -99,25 +123,26 @@ class VenueDetailViewController : UIViewController {
             } else {
                 print("No place details for \(self.placeID)")
             }
-        })
+        } as! GMSPlaceResultCallback)
         
         
-        ref.child("venues").child(self.venueID).observeEventType(.Value, withBlock: { snapshot in
-            if let specials = snapshot.value!["specials"] as! String? {
+        ref.child("venues").child(self.venueID).observe(.value, with: { snapshot in
+            let snapshotValue = snapshot.value as? NSDictionary
+            if let specials = snapshotValue?["specials"] as! String? {
                 self.happyHourLabel.text = specials
             }
         })
     }
     
-    @IBAction func getDirections(sender: AnyObject) {
+    @IBAction func getDirections(_ sender: AnyObject) {
         showOnMaps()
     }
     
-    func loadFirstPhotoForPlace(placeID: String) {
-        GMSPlacesClient.sharedClient().lookUpPhotosForPlaceID(placeID) { (photos, error) -> Void in
+    func loadFirstPhotoForPlace(_ placeID: String) {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
-                print("Error: \(error.description)")
+                print("Error: \((error as NSError).description)")
             } else {
                 if let firstPhoto = photos?.results.first {
                     self.loadImageForMetadata(firstPhoto)
@@ -126,37 +151,37 @@ class VenueDetailViewController : UIViewController {
         }
     }
     
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.sharedClient().loadPlacePhoto(photoMetadata, constrainedToSize: imageView.bounds.size, scale: self.imageView.window!.screen.scale) { (photo, error) -> Void in
+    func loadImageForMetadata(_ photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata, constrainedTo: imageView.bounds.size, scale: self.imageView.window!.screen.scale) { (photo, error) -> Void in
             if let error = error {
                 // TODO: handle the error.
-                print("Error: \(error.description)")
+                print("Error: \((error as NSError).description)")
             } else {
                 self.imageView.image = photo;
             }
         }
     }
     
-    func reverseGeocode(latitude: Double, longitude: Double, completion: (address: String?) -> Void) {
+    func reverseGeocode(_ latitude: Double, longitude: Double, completion: @escaping (_ address: String?) -> Void) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             if error != nil {
                 print("Error in reverse geocoding: \(error)")
-                completion(address: "")
+                completion("")
             }
             else if placemarks?.count > 0 {
                 let pm = placemarks![0]
-                completion(address: ABCreateStringWithAddressDictionary(pm.addressDictionary!, false))
+                completion(ABCreateStringWithAddressDictionary(pm.addressDictionary!, false))
             }
         })
     }
     
     func setupAesthetics() {
-        self.navigationController!.navigationBar.tintColor = UIColor.whiteColor()
+        self.navigationController!.navigationBar.tintColor = UIColor.white
         self.directionsButton.layer.cornerRadius = 5
         
         self.scrollView.contentSize = CGSize(width: 325, height: self.directionsButton.frame.minY)
-        self.websiteButton.hidden = true
+        self.websiteButton.isHidden = true
     }
     
     // Get directions to address via Apple Maps
@@ -165,15 +190,15 @@ class VenueDetailViewController : UIViewController {
         let place = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary: addressDict)
         let mapItem = MKMapItem(placemark: place)
         let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        mapItem.openInMapsWithLaunchOptions(options)
+        mapItem.openInMaps(launchOptions: options)
     }
     
-    func showOnMaps(address: String, latitude: Double, longitude: Double) {
+    func showOnMaps(_ address: String, latitude: Double, longitude: Double) {
         let addressDict = [kABPersonAddressStreetKey as String: address]
         let place = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary: addressDict)
         let mapItem = MKMapItem(placemark: place)
         let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        mapItem.openInMapsWithLaunchOptions(options)
+        mapItem.openInMaps(launchOptions: options)
     }
     
     override func didReceiveMemoryWarning() {

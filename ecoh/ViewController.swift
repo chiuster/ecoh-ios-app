@@ -13,10 +13,34 @@ import AddressBookUI
 
 import Firebase
 
-import Pulsator
+//import Pulsator
 import Mapbox
 
 import SwiftyJSON
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDelegate {
     
@@ -65,7 +89,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         self.locationManager.startUpdatingLocation()
         
         self.menuButton.target = self.revealViewController()
-        self.menuButton.action = Selector("revealToggle:")
+        self.menuButton.action = #selector(SWRevealViewController.revealToggle(_:))
         //self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
 
         // Initialize and load data from Firebase
@@ -80,7 +104,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "willEnterForeground", name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         //self.mapView.removeAnnotations(self.mapView.annotations)
         //self.vibes = []
         self.loadData()
@@ -93,18 +117,18 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     //}
     
     // Re-center map on user current location
-    @IBAction func centerMap(sender: AnyObject) {
+    @IBAction func centerMap(_ sender: AnyObject) {
         if let coordinate = self.locationManager.location?.coordinate {
-            self.mapView.setCenterCoordinate(coordinate, animated: true)
+            self.mapView.setCenter(coordinate, animated: true)
         }
     }
     
     func disableRatings() {
-        self.vibeButton1.enabled = false
-        self.vibeButton2.enabled = false
-        self.vibeButton3.enabled = false
-        self.vibeButton4.enabled = false
-        self.vibeButton5.enabled = false
+        self.vibeButton1.isEnabled = false
+        self.vibeButton2.isEnabled = false
+        self.vibeButton3.isEnabled = false
+        self.vibeButton4.isEnabled = false
+        self.vibeButton5.isEnabled = false
         
         self.vibeButton1.layer.opacity = 0.6
         self.vibeButton2.layer.opacity = 0.6
@@ -114,11 +138,11 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     }
     
     func enableRatings() {
-        self.vibeButton1.enabled = true
-        self.vibeButton2.enabled = true
-        self.vibeButton3.enabled = true
-        self.vibeButton4.enabled = true
-        self.vibeButton5.enabled = true
+        self.vibeButton1.isEnabled = true
+        self.vibeButton2.isEnabled = true
+        self.vibeButton3.isEnabled = true
+        self.vibeButton4.isEnabled = true
+        self.vibeButton5.isEnabled = true
         
         self.vibeButton1.layer.opacity = 1.0
         self.vibeButton2.layer.opacity = 1.0
@@ -128,10 +152,10 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     }
     
     // Return index of vibe with inputted latitude/longitude
-    func getIndexOfVibe(latitude: Double, longitude: Double) -> Int {
+    func getIndexOfVibe(_ latitude: Double, longitude: Double) -> Int {
         for vibe in self.vibes {
             if vibe.latitude == latitude && vibe.longitude == longitude {
-                return vibes.indexOf(vibe)!
+                return vibes.index(of: vibe)!
             }
         }
         return -1
@@ -144,11 +168,12 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
         
         // Retrieve all venues (and vibes associated with those venues)
-        ref.child("venues").queryOrderedByChild("latitude").queryStartingAtValue(self.mapView.centerCoordinate.latitude - 0.02).queryEndingAtValue(self.mapView.centerCoordinate.latitude + 0.02).observeEventType(.ChildAdded, withBlock: { snapshot in
-            let latitude = snapshot.value!["latitude"] as? Double
-            let longitude = snapshot.value!["longitude"] as? Double
-            let name = snapshot.value!["name"] as? String
-            let placeID = snapshot.value!["placeID"] as? String
+        ref.child("venues").queryOrdered(byChild: "latitude").queryStarting(atValue: self.mapView.centerCoordinate.latitude - 0.02).queryEnding(atValue: self.mapView.centerCoordinate.latitude + 0.02).observe(.childAdded, with: { snapshot in
+            let snapshotValue = snapshot.value as? NSDictionary
+            let latitude = snapshotValue?["latitude"] as? Double
+            let longitude = snapshotValue?["longitude"] as? Double
+            let name = snapshotValue?["name"] as? String
+            let placeID = snapshotValue?["placeID"] as? String
             
             let id = snapshot.key
             
@@ -156,9 +181,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
                 self.venues.append(Venue(id: id, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!))
             }
             
-            self.locationManager.startMonitoringForRegion(CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 20, identifier: name!))
+            self.locationManager.startMonitoring(for: CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 20, identifier: name!))
             
-            if CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 50, identifier: name!).containsCoordinate(self.locationManager.location!.coordinate) {
+            if CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 50, identifier: name!).contains(self.locationManager.location!.coordinate) {
                 self.nearestVenue = Venue(id: id, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!)
                 self.enableRatings()
                 
@@ -167,7 +192,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
             }
             
             // Load vibes
-            if let vibes = snapshot.value!["vibes"] as? [String: [String : AnyObject]] {
+            if let vibes = snapshotValue?["vibes"] as? [String: [String : AnyObject]] {
                 let number = vibes.count
                 var rating = 0
                 var invalids = 0
@@ -175,7 +200,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
                     let vibeRating = vibe["rating"] as? Int
                     let vibeTimestamp = vibe["timestamp"] as! Double
                     
-                    if vibeTimestamp > (NSDate().timeIntervalSince1970 - 3600.0) {
+                    if vibeTimestamp > (Date().timeIntervalSince1970 - 3600.0) {
                         print("Retrieved vibe ID #\(id): with rating \(vibeRating)")
                         rating = rating + vibeRating!
                     } else {
@@ -205,7 +230,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         let browserAPIKey = "AIzaSyBRcPx7Mr9Qvm_IQ0NxYtiQW7TZUDQBnho"
         let dataURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(radius)&type=bar&key=\(browserAPIKey)"
         
-        if let data = NSData(contentsOfURL: NSURL(string: dataURL)!) {
+        if let data = try? Data(contentsOf: URL(string: dataURL)!) {
             let json = JSON(data: data) // JSON array of venues
             
             // Now put array data on the map
@@ -214,24 +239,24 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     }
     
     // MARK - Location Delegate Methods
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last
         
         if let coordinate = location?.coordinate {
-            self.mapView.setCenterCoordinate(coordinate, animated: true)
+            self.mapView.setCenter(coordinate, animated: true)
         }
         
         self.locationManager.stopUpdatingLocation()
     }
     
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         print("Starting monitoring \(region.identifier)")
         
         // When monitoring is set up, hide activity indicator
-        self.loadingView.hidden = true
+        self.loadingView.isHidden = true
     }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if region is CLCircularRegion {
             print("Entering region")
             enableRatings()
@@ -240,42 +265,42 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         if region is CLCircularRegion {
             print("Exiting region")
             disableRatings()
         }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError)
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error)
     {
         print("Errors: " + error.localizedDescription)
     }
     
-    func mapView(mapView: MGLMapView, regionDidChangeAnimated animated: Bool) {
+    func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool) {
         if self.vibes.count == 0 {
             self.loadData()
         }
     }
     
-    func mapView(mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
     }
     
-    func mapView(mapView: MGLMapView, leftCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
+    func mapView(_ mapView: MGLMapView, leftCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
         return nil
     }
     
-    func mapView(mapView: MGLMapView, rightCalloutAccessoryViewForAnnotation annotation: MGLAnnotation) -> UIView? {
-        return UIButton(type: .DetailDisclosure)
+    func mapView(_ mapView: MGLMapView, rightCalloutAccessoryViewFor annotation: MGLAnnotation) -> UIView? {
+        return UIButton(type: .detailDisclosure)
     }
     
-    func mapView(mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
         self.selectedVenueName = annotation.title!!
         self.selectedVenueAddress = annotation.subtitle!!
         self.selectedPlaceID = self.venueFromVibeCoordinates(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).placeID
         self.selectedVenueID = self.venueFromVibeCoordinates(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).id
-        self.performSegueWithIdentifier("showVenueDetails", sender: nil)
+        self.performSegue(withIdentifier: "showVenueDetails", sender: nil)
     }
     
     /*func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
@@ -344,7 +369,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
      return annotationView
      }*/
     
-    func mapView(mapView: MGLMapView, imageForAnnotation annotation: MGLAnnotation) -> MGLAnnotationImage? {
+    func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
         guard annotation is MGLPointAnnotation else {
             return nil
         }
@@ -355,27 +380,27 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         
         switch annotation.subtitle!! {
         case "This place is \"POPPIN'\" right now!":
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("redVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "redVibe")
             markerImage = UIImage(named: "RedVibe")!
             identifier = "redVibe"
         case "This place is \"pretty good\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("orangeVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "orangeVibe")
             markerImage = UIImage(named: "OrangeVibe")!
             identifier = "orangeVibe"
         case "This place is \"alright\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("greenVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "greenVibe")
             markerImage = UIImage(named: "GreenVibe")!
             identifier = "greenVibe"
         case "This place is \"slow\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("blueVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "blueVibe")
             markerImage = UIImage(named: "BlueVibe")!
             identifier = "blueVibe"
         case "This place is \"dead\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("purpleVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "purpleVibe")
             markerImage = UIImage(named: "PurpleVibe")!
             identifier = "purpleVibe"
         default:
-            annotationImage = mapView.dequeueReusableAnnotationImageWithIdentifier("noVibe")
+            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "noVibe")
             markerImage = UIImage(named: "VenueMarker")!
             identifier = "noVibe"
         }
@@ -388,7 +413,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
             //
             // To make this padding non-interactive, we create another image object
             // with a custom alignment rect that excludes the padding.
-            markerImage = markerImage!.imageWithAlignmentRectInsets(UIEdgeInsetsMake(0, 0, markerImage!.size.height/2, 0))
+            markerImage = markerImage!.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, markerImage!.size.height/2, 0))
             
             // Initialize the ‘pisa’ annotation image with the UIImage we just loaded.
             annotationImage = MGLAnnotationImage(image: markerImage!, reuseIdentifier: identifier)
@@ -397,9 +422,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         return annotationImage
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         // LightContent
-        return UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.lightContent
     }
     
     func plotVibes() {
@@ -433,9 +458,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showVenueDetails" {
-            let destinationViewController = segue.destinationViewController as! VenueDetailViewController
+            let destinationViewController = segue.destination as! VenueDetailViewController
             destinationViewController.address = self.selectedVenueAddress
             destinationViewController.name = self.selectedVenueName
             destinationViewController.latitude = self.selectedLatitude
@@ -445,41 +470,41 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    @IBAction func rate(sender: AnyObject) {
-        FIRAnalytics.logEventWithName("Ratings", parameters: ["rating": sender.tag])
+    @IBAction func rate(_ sender: AnyObject) {
+        FIRAnalytics.logEvent(withName: "Ratings", parameters: ["rating": sender.tag as NSObject])
         
         switch sender.tag {
         case 1:
             let uid = FIRAuth.auth()?.currentUser!.uid
-            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 1, "timestamp": NSDate().timeIntervalSince1970])
+            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 1, "timestamp": Date().timeIntervalSince1970])
             
             resetButtons()
             self.vibeButton1.layer.opacity = 0.3
             self.navigationController!.navigationBar.barTintColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0)
         case 2:
             let uid = FIRAuth.auth()?.currentUser!.uid
-            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 2, "timestamp": NSDate().timeIntervalSince1970])
+            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 2, "timestamp": Date().timeIntervalSince1970])
             
             resetButtons()
             self.vibeButton2.layer.opacity = 0.3
             self.navigationController!.navigationBar.barTintColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0)
         case 3:
             let uid = FIRAuth.auth()?.currentUser!.uid
-            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 3, "timestamp": NSDate().timeIntervalSince1970])
+            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 3, "timestamp": Date().timeIntervalSince1970])
             
             resetButtons()
             self.vibeButton3.layer.opacity = 0.3
             self.navigationController!.navigationBar.barTintColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0)
         case 4:
             let uid = FIRAuth.auth()?.currentUser!.uid
-            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 4, "timestamp": NSDate().timeIntervalSince1970])
+            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 4, "timestamp": Date().timeIntervalSince1970])
             
             resetButtons()
             self.vibeButton4.layer.opacity = 0.3
             self.navigationController!.navigationBar.barTintColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0)
         default:
             let uid = FIRAuth.auth()?.currentUser!.uid
-            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 5, "timestamp": NSDate().timeIntervalSince1970])
+            self.ref.child("venues").child(self.nearestVenueId).child("vibes").child(uid!).setValue(["rating": 5, "timestamp": Date().timeIntervalSince1970])
             
             resetButtons()
             self.vibeButton5.layer.opacity = 0.3
@@ -487,26 +512,26 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         }
     }
     
-    @IBAction func refreshVibes(sender: AnyObject) {
+    @IBAction func refreshVibes(_ sender: AnyObject) {
         self.loadData()
     }
     
     func resetButtons() {
         for button in [self.vibeButton1, self.vibeButton2, self.vibeButton3, self.vibeButton4, self.vibeButton5] {
-            button.layer.opacity = 1.0
+            button?.layer.opacity = 1.0
         }
     }
     
-    func reverseGeocode(latitude: Double, longitude: Double, completion: (address: String?) -> Void) {
+    func reverseGeocode(_ latitude: Double, longitude: Double, completion: @escaping (_ address: String?) -> Void) {
         let location = CLLocation(latitude: latitude, longitude: longitude)
         CLGeocoder().reverseGeocodeLocation(location, completionHandler: {(placemarks, error) -> Void in
             if error != nil {
                 print("Error in reverse geocoding: \(error)")
-                completion(address: "")
+                completion("")
             }
             else if placemarks?.count > 0 {
                 let pm = placemarks![0]
-                completion(address: ABCreateStringWithAddressDictionary(pm.addressDictionary!, false))
+                completion(ABCreateStringWithAddressDictionary(pm.addressDictionary!, false))
             }
             self.selectedLatitude = latitude
             self.selectedLongitude = longitude
@@ -516,22 +541,22 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     func setupAesthetics() {
         // Button setup
         for button in [self.vibeButton1, self.vibeButton2, self.vibeButton3, self.vibeButton4, self.vibeButton5] {
-            button.layer.masksToBounds = false
-            button.layer.cornerRadius = self.vibeButton1.frame.height / 2
-            button.clipsToBounds = true
+            button?.layer.masksToBounds = false
+            button?.layer.cornerRadius = self.vibeButton1.frame.height / 2
+            button?.clipsToBounds = true
         }
         
-        self.vibeButton1.layer.borderColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0).CGColor
-        self.vibeButton2.layer.borderColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0).CGColor
-        self.vibeButton3.layer.borderColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0).CGColor
-        self.vibeButton4.layer.borderColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0).CGColor
-        self.vibeButton5.layer.borderColor = UIColor(red: 0.4902, green: 0, blue: 0.8667, alpha: 1.0).CGColor
+        self.vibeButton1.layer.borderColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0).cgColor
+        self.vibeButton2.layer.borderColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0).cgColor
+        self.vibeButton3.layer.borderColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0).cgColor
+        self.vibeButton4.layer.borderColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0).cgColor
+        self.vibeButton5.layer.borderColor = UIColor(red: 0.4902, green: 0, blue: 0.8667, alpha: 1.0).cgColor
         
         // Map center button setup
         self.mapCenterButton.layer.masksToBounds = false
         self.mapCenterButton.clipsToBounds = true
         self.mapCenterButton.layer.cornerRadius = 18
-        self.mapCenterButton.layer.borderColor = UIColor(red: 0.345, green: 0.345, blue: 0.345, alpha: 1.0).CGColor
+        self.mapCenterButton.layer.borderColor = UIColor(red: 0.345, green: 0.345, blue: 0.345, alpha: 1.0).cgColor
         
         // Loading view setup
         self.loadingView.layer.masksToBounds = false
@@ -544,14 +569,14 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         self.navigationItem.titleView = imageView
     }
     
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
+    func showAlert(_ title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
         
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
-    func venueFromVibeCoordinates(latitude: Double, longitude: Double) -> Venue {
+    func venueFromVibeCoordinates(_ latitude: Double, longitude: Double) -> Venue {
         for venue in self.venues {
             if (venue.latitude == latitude && venue.longitude == longitude) {
                 return venue

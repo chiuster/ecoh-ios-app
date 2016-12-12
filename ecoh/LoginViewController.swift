@@ -33,23 +33,23 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
         self.setupAesthetics()
     }
     
-    @IBAction func forgotPassword(sender: AnyObject) {
-        let alert = UIAlertController(title: "Recover Password", message: "Enter your email address.", preferredStyle: .Alert)
-        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+    @IBAction func forgotPassword(_ sender: AnyObject) {
+        let alert = UIAlertController(title: "Recover Password", message: "Enter your email address.", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: { (textField) -> Void in
             textField.text = ""
         })
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
             let textField = alert.textFields![0] as UITextField
-            if textField.text! == "" || !textField.text!.containsString("@")
+            if textField.text! == "" || !textField.text!.contains("@")
             {
-                let alertController = UIAlertController(title: "Oops!", message: "Please enter a valid email address.", preferredStyle: .Alert)
-                let defaultAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                let alertController = UIAlertController(title: "Oops!", message: "Please enter a valid email address.", preferredStyle: .alert)
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                 alertController.addAction(defaultAction)
-                self.presentViewController(alertController, animated: true, completion: nil)
+                self.present(alertController, animated: true, completion: nil)
             }
             else
             {
-                FIRAuth.auth()?.sendPasswordResetWithEmail(textField.text!, completion: { (error) in
+                FIRAuth.auth()?.sendPasswordReset(withEmail: textField.text!, completion: { (error) in
                     var title = ""
                     var message = ""
                     
@@ -65,67 +65,67 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
                         textField.text = ""
                     }
                     
-                    let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .Cancel, handler: nil)
+                    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                     alertController.addAction(defaultAction)
-                    self.presentViewController(alertController, animated: true, completion: nil)
+                    self.present(alertController, animated: true, completion: nil)
                 })
             }
         }))
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func login(sender: AnyObject) {
+    @IBAction func login(_ sender: AnyObject) {
         let email = usernameField.text
         let password = passwordField.text
         
         view.endEditing(true)
-        self.loadingView.hidden = false
+        self.loadingView.isHidden = false
         
         // Check for enabled location services
         if CLLocationManager.locationServicesEnabled() {
             // Check to see if user is in available app areas
             if userInEnabledRegion() {
-                FIRAuth.auth()?.signInWithEmail(email!, password: password!) { (user, error) in
+                FIRAuth.auth()?.signIn(withEmail: email!, password: password!) { (user, error) in
                     if error != nil {
-                        let alertController = UIAlertController(title: "Invalid Username/Password", message: "We're sorry, but either your username or password is entered incorrectly.", preferredStyle: UIAlertControllerStyle.Alert)
-                        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
+                        let alertController = UIAlertController(title: "Invalid Username/Password", message: "We're sorry, but either your username or password is entered incorrectly.", preferredStyle: UIAlertControllerStyle.alert)
+                        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
                 
-                        self.presentViewController(alertController, animated: true, completion: nil)
-                        self.loadingView.hidden = true
+                        self.present(alertController, animated: true, completion: nil)
+                        self.loadingView.isHidden = true
                     } else {
                         // Save info in case user exits app -- no longer have to login again
-                        let defaults = NSUserDefaults.standardUserDefaults()
-                        defaults.setObject(email!, forKey: "email")
-                        defaults.setObject(password!, forKey: "password")
+                        let defaults = UserDefaults.standard
+                        defaults.set(email!, forKey: "email")
+                        defaults.set(password!, forKey: "password")
                         defaults.synchronize()
                 
-                        self.performSegueWithIdentifier("login", sender: nil)
+                        self.performSegue(withIdentifier: "login", sender: nil)
                     }
                 }
             } else {
                 let alertController = UIAlertController(title: "App Not Yet Available In Your Area", message:
-                    "Sorry, but we're not in your area yet! Please check back for updates via our website (http://www.ecohapp.com), as we are coming to you soon!", preferredStyle: UIAlertControllerStyle.Alert)
-                alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
-                self.presentViewController(alertController, animated: true, completion: nil)
-                self.loadingView.hidden = true
+                    "Sorry, but we're not in your area yet! Please check back for updates via our website (http://www.ecohapp.com), as we are coming to you soon!", preferredStyle: UIAlertControllerStyle.alert)
+                alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+                self.present(alertController, animated: true, completion: nil)
+                self.loadingView.isHidden = true
             }
         } else {
             let alertController = UIAlertController(title: "Location Services Not Enabled", message:
-                "We're sorry, but you need to allow us to use your location. You can do this through your phone's settings.", preferredStyle: UIAlertControllerStyle.Alert)
-            alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.Default,handler: nil))
-            self.presentViewController(alertController, animated: true, completion: nil)
-            self.loadingView.hidden = true
+                "We're sorry, but you need to allow us to use your location. You can do this through your phone's settings.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            self.loadingView.isHidden = true
         }
     }
     
     // Changing Status Bar
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         // LightContent
-        return UIStatusBarStyle.LightContent
+        return UIStatusBarStyle.lightContent
     }
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
@@ -144,7 +144,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setupAesthetics() {
-        self.loadingView.hidden = true
+        self.loadingView.isHidden = true
         self.loadingView.layer.masksToBounds = false
         self.loadingView.clipsToBounds = true
         self.loadingView.layer.cornerRadius = 5

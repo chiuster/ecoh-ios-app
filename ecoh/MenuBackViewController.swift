@@ -18,37 +18,37 @@ class MenuBackViewController: UITableViewController {
         self.tableView.backgroundColor = UIColor(red: 0.235, green: 0.275, blue: 0.392, alpha: 0.5)
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableArray.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as UITableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as UITableViewCell
         cell.textLabel?.text = tableArray[indexPath.row]
         return cell
     }
     
-    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
-        cell.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textColor = UIColor.whiteColor()
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.textLabel?.textColor = UIColor.white
         cell.textLabel?.font = UIFont(name: "Avenir Next", size: 22)
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if (indexPath.row == 0) {
-            self.performSegueWithIdentifier("menuToMap", sender: nil)
+            self.performSegue(withIdentifier: "menuToMap", sender: nil)
         } else if (indexPath.row == 1) {
-            self.performSegueWithIdentifier("menuToProfile", sender: nil)
+            self.performSegue(withIdentifier: "menuToProfile", sender: nil)
         } else if (indexPath.row == 2) {
-            self.performSegueWithIdentifier("menuToReferrals", sender: nil)
+            self.performSegue(withIdentifier: "menuToReferrals", sender: nil)
         } else {
             // Clear NSUserDefaults for emails and passwords
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("email")
-            NSUserDefaults.standardUserDefaults().removeObjectForKey("password")
+            UserDefaults.standard.removeObject(forKey: "email")
+            UserDefaults.standard.removeObject(forKey: "password")
             
             try! FIRAuth.auth()!.signOut()
             
-            self.performSegueWithIdentifier("logout", sender: nil)
+            self.performSegue(withIdentifier: "logout", sender: nil)
         }
     }
 }

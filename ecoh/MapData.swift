@@ -18,7 +18,7 @@ class MapData: NSObject {
         self.venues = venues
     }
     
-    func venueFromVibeCoordinates(latitude: Double, longitude: Double) -> Venue {
+    func venueFromVibeCoordinates(_ latitude: Double, longitude: Double) -> Venue {
         for venue in self.venues {
             if (venue.latitude == latitude && venue.longitude == longitude) {
                 return venue

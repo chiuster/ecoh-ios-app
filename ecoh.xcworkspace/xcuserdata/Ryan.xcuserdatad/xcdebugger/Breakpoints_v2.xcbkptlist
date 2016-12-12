@@ -10,13 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ViewController.swift"
-            timestampString = "501197368.484263"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
-            landmarkName = "mapView(_:imageForAnnotation:)"
-            landmarkType = "5">
+            startingLineNumber = "20"
+            endingLineNumber = "20">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -26,13 +24,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ProfileViewController.swift"
-            timestampString = "498283021.727587"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
-            landmarkType = "5">
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -42,13 +40,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ViewController.swift"
-            timestampString = "501197368.484263"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
-            landmarkName = "viewWillAppear(_:)"
-            landmarkType = "5">
+            startingLineNumber = "20"
+            endingLineNumber = "20">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,13 +54,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ViewController.swift"
-            timestampString = "499283807.480087"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "22"
-            endingLineNumber = "22"
-            landmarkName = "ViewController"
-            landmarkType = "3">
+            startingLineNumber = "20"
+            endingLineNumber = "20">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -136,13 +130,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/VenueDetailViewController.swift"
-            timestampString = "497746229.774093"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "loadFirstPhotoForPlace(_:)"
-            landmarkType = "5">
+            startingLineNumber = "17"
+            endingLineNumber = "17">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -152,13 +144,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ViewController.swift"
-            timestampString = "499297420.509042"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "viewDidLoad()"
-            landmarkType = "5">
+            startingLineNumber = "20"
+            endingLineNumber = "20">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -168,13 +158,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/RegisterViewController.swift"
-            timestampString = "497926996.721074"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "register(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -184,13 +174,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/VenueDetailViewController.swift"
-            timestampString = "497746195.290404"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
-            landmarkName = "loadData()"
-            landmarkType = "5">
+            startingLineNumber = "17"
+            endingLineNumber = "17">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
@@ -232,13 +220,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/ViewController.swift"
-            timestampString = "501197368.484263"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "ViewController"
-            landmarkType = "3">
+            startingLineNumber = "20"
+            endingLineNumber = "20">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -296,13 +282,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ecoh/MapData.swift"
-            timestampString = "500151430.882485"
+            timestampString = "503275698.183037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "venueFromVibeCoordinates(_:longitude:)"
-            landmarkType = "5">
+            startingLineNumber = "21"
+            endingLineNumber = "21"
+            landmarkName = "venueFromVibeCoordinates(latitude:longitude:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
