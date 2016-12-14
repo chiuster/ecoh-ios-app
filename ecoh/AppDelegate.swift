@@ -12,7 +12,6 @@ import CoreData
 import Firebase
 import FirebaseMessaging
 import GooglePlaces
-import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -32,7 +31,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.registerUserNotificationSettings(notificationSettings)
         
         // Initialize Places API
-        GMSServices.provideAPIKey("AIzaSyC444GK-o4gk85z2A1k_QQSEISvzHpQ6Pk")
+        //GMSServices.provideAPIKey("AIzaSyC444GK-o4gk85z2A1k_QQSEISvzHpQ6Pk")
+        GMSPlacesClient.provideAPIKey("AIzaSyCaYoZUIpj0O9u31xAFmOjZGOCg_Z6mAXs")
         //GooglePlaces.provideAPIKey("AIzaSyC444GK-o4gk85z2A1k_QQSEISvzHpQ6Pk")
         
         // Set status bar to light color

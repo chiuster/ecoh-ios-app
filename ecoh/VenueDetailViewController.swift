@@ -13,7 +13,7 @@ import MapKit
 
 import Firebase
 import GooglePlaces
-import GoogleMaps
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -47,7 +47,6 @@ class VenueDetailViewController : UIViewController {
     var latitude = 0.0
     var longitude = 0.0
     var placeID = "" // Google Places ID
-    var venueID = "" // Firebase Database ID
     
     @IBOutlet weak var addressLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
@@ -77,6 +76,7 @@ class VenueDetailViewController : UIViewController {
         
         self.ref = FIRDatabase.database().reference()
         
+        print("Looking up venue with placeID \(self.placeID) ...")
         loadData()
     }
     
@@ -87,7 +87,7 @@ class VenueDetailViewController : UIViewController {
     func loadData() {
         let placesClient: GMSPlacesClient = GMSPlacesClient()
         
-        placesClient.lookUpPlaceID(self.placeID, callback: { (place: GMSPlace?, error: NSError?) -> Void in
+        placesClient.lookUpPlaceID(self.placeID, callback: { (place: GMSPlace?, error: Error?) -> Void in
             if let error = error {
                 print("lookup place id query error: \(error.localizedDescription)")
                 return
@@ -126,7 +126,7 @@ class VenueDetailViewController : UIViewController {
         } as! GMSPlaceResultCallback)
         
         
-        ref.child("venues").child(self.venueID).observe(.value, with: { snapshot in
+        ref.child("venues").child(self.placeID).observe(.value, with: { snapshot in
             let snapshotValue = snapshot.value as? NSDictionary
             if let specials = snapshotValue?["specials"] as! String? {
                 self.happyHourLabel.text = specials

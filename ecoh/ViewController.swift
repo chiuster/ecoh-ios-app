@@ -13,10 +13,11 @@ import AddressBookUI
 
 import Firebase
 
-//import Pulsator
+import Pulsator
 import Mapbox
 
 import SwiftyJSON
+
 // FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
 // Consider refactoring the code to use the non-optional operators.
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -107,14 +108,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     override func viewWillAppear(_ animated: Bool) {
         //self.mapView.removeAnnotations(self.mapView.annotations)
         //self.vibes = []
-        self.loadData()
+        
+        self.loadDataJSON() //self.loadData()
     }
-    
-    //func willEnterForeground() {
-    //    self.mapView.removeAnnotations(self.mapView.annotations)
-    //    print("entered foreground")
-    //    //self.loadData()
-    //}
     
     // Re-center map on user current location
     @IBAction func centerMap(_ sender: AnyObject) {
@@ -161,80 +157,84 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         return -1
     }
     
-    // Loading vibe and venue data from Firebase backend
-    func loadData() {
+    func loadDataJSON() {
         if let annotations = self.mapView.annotations {
             self.mapView.removeAnnotations(annotations)
         }
         
-        // Retrieve all venues (and vibes associated with those venues)
-        ref.child("venues").queryOrdered(byChild: "latitude").queryStarting(atValue: self.mapView.centerCoordinate.latitude - 0.02).queryEnding(atValue: self.mapView.centerCoordinate.latitude + 0.02).observe(.childAdded, with: { snapshot in
-            let snapshotValue = snapshot.value as? NSDictionary
-            let latitude = snapshotValue?["latitude"] as? Double
-            let longitude = snapshotValue?["longitude"] as? Double
-            let name = snapshotValue?["name"] as? String
-            let placeID = snapshotValue?["placeID"] as? String
-            
-            let id = snapshot.key
-            
-            if (latitude != nil && longitude != nil && name != nil) {
-                self.venues.append(Venue(id: id, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!))
-            }
-            
-            self.locationManager.startMonitoring(for: CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 20, identifier: name!))
-            
-            if CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 50, identifier: name!).contains(self.locationManager.location!.coordinate) {
-                self.nearestVenue = Venue(id: id, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!)
-                self.enableRatings()
-                
-                self.nearestVenueId = id
-                print("NEAREST VENUE ID: \(self.nearestVenueId)")
-            }
-            
-            // Load vibes
-            if let vibes = snapshotValue?["vibes"] as? [String: [String : AnyObject]] {
-                let number = vibes.count
-                var rating = 0
-                var invalids = 0
-                for (id, vibe) in vibes {
-                    let vibeRating = vibe["rating"] as? Int
-                    let vibeTimestamp = vibe["timestamp"] as! Double
-                    
-                    if vibeTimestamp > (Date().timeIntervalSince1970 - 3600.0) {
-                        print("Retrieved vibe ID #\(id): with rating \(vibeRating)")
-                        rating = rating + vibeRating!
-                    } else {
-                        invalids = invalids + 1
-                    }
-                }
-                
-                if (vibes.count - invalids) > 0 {
-                    rating = rating / (vibes.count - invalids)
-                }
-                
-                let vibeObject: Vibe = Vibe(latitude: latitude!, longitude: longitude!, rating: rating)
-                vibeObject.number = number
-                self.vibes.append(vibeObject)
-                self.plotVibes()
-            }
-        })
-    }
-    
-    func loadDataJSON() {
         let latitude = self.mapView.centerCoordinate.latitude
         let longitude = self.mapView.centerCoordinate.longitude
         
         // calculate approximate radius from mapView's current zoom level
-        let radius = Int(self.mapView.zoomLevel * 213.0) // zoom level 13 = 1 mi (1600 m) radius
-        
+        let radius = Int(20000000 * pow(2.718, self.mapView.zoomLevel * -0.727))
+        // ^ b/c radius R = 2E+07e^(-0.727Z), where Z = zoom level
+
         let browserAPIKey = "AIzaSyBRcPx7Mr9Qvm_IQ0NxYtiQW7TZUDQBnho"
         let dataURL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=\(latitude),\(longitude)&radius=\(radius)&type=bar&key=\(browserAPIKey)"
         
         if let data = try? Data(contentsOf: URL(string: dataURL)!) {
             let json = JSON(data: data) // JSON array of venues
             
-            // Now put array data on the map
+            print("There are \(json["results"].count) bars nearby")
             
+            // Now put array data on the map
+            for i in 0..<json["results"].count {
+                let latitude = json["results"][i]["geometry"]["location"]["lat"].double
+                let longitude = json["results"][i]["geometry"]["location"]["lng"].double
+                let name = json["results"][i]["name"].string
+                let placeID = json["results"][i]["place_id"].string
+                
+                print("Bar \(i): \(latitude),\(longitude),\(name),\(placeID)")
+                
+                let id = placeID // might need to change later
+                
+                if (latitude != nil && longitude != nil && name != nil) {
+                    self.venues.append(Venue(id: id!, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!))
+                }
+                
+                self.locationManager.startMonitoring(for: CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 20, identifier: name!))
+                
+                if CLCircularRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), radius: 50, identifier: name!).contains(self.locationManager.location!.coordinate) {
+                    self.nearestVenue = Venue(id: id!, latitude: latitude!, longitude: longitude!, name: name!, placeID: placeID!)
+                    self.enableRatings()
+                    
+                    self.nearestVenueId = id!
+                    print("NEAREST VENUE ID: \(self.nearestVenueId)")
+                }
+                
+                // Load vibes
+                ref.child("venues").child(id!).observeSingleEvent(of: .value, with: { (snapshot) in
+                    let snapshotValue = snapshot.value as? NSDictionary
+                    if let vibes = snapshotValue?["vibes"] as? [String: [String : AnyObject]] {
+                        print("Found vibes for bar with place_id = \(id)!")
+                        let number = vibes.count
+                        var rating = 0
+                        var invalids = 0
+                        for (id, vibe) in vibes {
+                            let vibeRating = vibe["rating"] as? Int
+                            let vibeTimestamp = vibe["timestamp"] as! Double
+                            if vibeTimestamp > (Date().timeIntervalSince1970 - 3600.0) {
+                                print("Retrieved vibe ID #\(id): with rating \(vibeRating)")
+                                rating = rating + vibeRating!
+                            } else {
+                                invalids = invalids + 1
+                            }
+                        }
+                    
+                        if (vibes.count - invalids) > 0 {
+                            rating = rating / (vibes.count - invalids)
+                        }
+                    
+                        let vibeObject: Vibe = Vibe(latitude: latitude!, longitude: longitude!, rating: rating)
+                        vibeObject.number = number
+                        self.vibes.append(vibeObject)
+                    } else {
+                        let vibeObject: Vibe = Vibe(latitude: latitude!, longitude: longitude!, rating: 0)
+                        self.vibes.append(vibeObject)
+                    }
+                    self.plotVibes()
+                })
+            }
         }
     }
     
@@ -279,7 +279,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     
     func mapView(_ mapView: MGLMapView, regionDidChangeAnimated animated: Bool) {
         if self.vibes.count == 0 {
-            self.loadData()
+            self.loadDataJSON()
         }
     }
     
@@ -299,75 +299,76 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         self.selectedVenueName = annotation.title!!
         self.selectedVenueAddress = annotation.subtitle!!
         self.selectedPlaceID = self.venueFromVibeCoordinates(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).placeID
-        self.selectedVenueID = self.venueFromVibeCoordinates(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).id
         self.performSegue(withIdentifier: "showVenueDetails", sender: nil)
     }
     
     /*func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
-     // only concerned with point annotations.
-     guard annotation is MGLPointAnnotation else {
-     return nil
-     }
+        // only concerned with point annotations.
+        guard annotation is MGLPointAnnotation else {
+            return nil
+        }
      
-     /*// Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
-     let reuseIdentifier = "\(annotation.coordinate.longitude)"
+        /*// Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
+         let reuseIdentifier = "\(annotation.coordinate.longitude)"
      
-     // For better performance, always try to reuse existing annotations.
-     var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier)
+         // For better performance, always try to reuse existing annotations.
+         var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier)
      
-     // If there’s no reusable annotation view available, initialize a new one.
-     if annotationView == nil {
-     annotationView = CustomAnnotationView(reuseIdentifier: reuseIdentifier)
-     annotationView!.frame = CGRectMake(0, 0, 40, 40)
+         // If there’s no reusable annotation view available, initialize a new one.
+         if annotationView == nil {
+            annotationView = CustomAnnotationView(reuseIdentifier: reuseIdentifier)
+            annotationView!.frame = CGRectMake(0, 0, 40, 40)
      
-     // Set the annotation view’s background color to a value determined by its longitude.
-     let hue = CGFloat(annotation.coordinate.longitude) / 100
-     annotationView!.backgroundColor = UIColor(hue: hue, saturation: 0.5, brightness: 1, alpha: 1)
-     }*/
+            // Set the annotation view’s background color to a value determined by its longitude.
+            let hue = CGFloat(annotation.coordinate.longitude) / 100
+            annotationView!.backgroundColor = UIColor(hue: hue, saturation: 0.5, brightness: 1, alpha: 1)
+         }*/
+        
+        let pulsator = Pulsator()
      
-     let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier("vibe")
-     let pin = annotationView!.annotation
-     let pinIndex = getIndexOfVibe(pin!.coordinate.latitude, longitude: pin!.coordinate.longitude)
+        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "vibe")
+        let pin = annotationView!.annotation
+        let pinIndex = getIndexOfVibe(pin!.coordinate.latitude, longitude: pin!.coordinate.longitude)
      
-     let redColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0)
-     let orangeColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0)
-     let greenColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0)
-     let blueColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0)
-     let purpleColor = UIColor(red: 0.4902, green: 0, blue: 0.8667, alpha: 1.0)
+        let redColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0)
+        let orangeColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0)
+        let greenColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0)
+        let blueColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0)
+        let purpleColor = UIColor(red: 0.4902, green: 0, blue: 0.8667, alpha: 1.0)
      
-     if pinIndex < self.vibes.count && pinIndex >= 0 {
-     let vibe = self.vibes[pinIndex]
-     if (vibe.rating == 1) {
-     // red for LIT
-     annotationView!.
-     } else if (vibe.rating == 2) {
-     // orange for POPPIN
-     pulsator.backgroundColor = orangeColor.CGColor
-     } else if (vibe.rating == 3) {
-     // green for OK
-     pulsator.backgroundColor = greenColor.CGColor
-     } else if (vibe.rating == 4) {
-     // blue for YIKES
-     pulsator.backgroundColor = blueColor.CGColor
-     } else if (vibe.rating == 5) {
-     // purple for SNOOZIN
-     pulsator.backgroundColor = purpleColor.CGColor
-     } else {
-     // nothin there = no visible pulse
-     pulsator.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0).CGColor
-     }
+        if pinIndex < self.vibes.count && pinIndex >= 0 {
+            let vibe = self.vibes[pinIndex]
+            if (vibe.rating == 1) {
+                // red for LIT
+                pulsator.backgroundColor = redColor.cgColor
+            } else if (vibe.rating == 2) {
+                // orange for POPPIN
+                pulsator.backgroundColor = orangeColor.cgColor
+            } else if (vibe.rating == 3) {
+                // green for OK
+                pulsator.backgroundColor = greenColor.cgColor
+            } else if (vibe.rating == 4) {
+                // blue for YIKES
+                pulsator.backgroundColor = blueColor.cgColor
+            } else if (vibe.rating == 5) {
+                // purple for SNOOZIN
+                pulsator.backgroundColor = purpleColor.cgColor
+            } else {
+                // nothin there = no visible pulse
+                pulsator.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0).cgColor
+            }
      
-     // Add pulse to pin & set dimensions of pulse based on popularity of vibes
-     pulsator.numPulse = self.vibes[pinIndex].number / 10 + 1
-     pulsator.radius = 40.0
+            // Add pulse to pin & set dimensions of pulse based on popularity of vibes
+            pulsator.numPulse = self.vibes[pinIndex].number / 10 + 1
+            pulsator.radius = 40.0
      
-     //pulsator.anchorPoint = CGPoint(x: annotationView!.frame.maxX, y: annotationView!.frame.maxY)
-     annotationView!.layer.addSublayer(pulsator)
-     pulsator.start()
-     }
+            //pulsator.anchorPoint = CGPoint(x: annotationView!.frame.maxX, y: annotationView!.frame.maxY)
+            annotationView!.layer.addSublayer(pulsator)
+            pulsator.start()
+        }
      
-     return annotationView
-     }*/
+        return annotationView
+    }*/
     
     func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
         guard annotation is MGLPointAnnotation else {
@@ -466,7 +467,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
             destinationViewController.latitude = self.selectedLatitude
             destinationViewController.longitude = self.selectedLongitude
             destinationViewController.placeID = self.selectedPlaceID
-            destinationViewController.venueID = self.selectedVenueID
         }
     }
     
@@ -513,7 +513,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     }
     
     @IBAction func refreshVibes(_ sender: AnyObject) {
-        self.loadData()
+        self.loadDataJSON() //self.loadData()
     }
     
     func resetButtons() {
@@ -542,7 +542,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         // Button setup
         for button in [self.vibeButton1, self.vibeButton2, self.vibeButton3, self.vibeButton4, self.vibeButton5] {
             button?.layer.masksToBounds = false
-            button?.layer.cornerRadius = self.vibeButton1.frame.height / 2
+            button?.layer.cornerRadius = 25
             button?.clipsToBounds = true
         }
         
