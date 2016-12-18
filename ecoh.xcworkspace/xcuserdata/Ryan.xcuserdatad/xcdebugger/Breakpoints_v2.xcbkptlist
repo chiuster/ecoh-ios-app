@@ -59,68 +59,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
             endingLineNumber = "21">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.ViewController.menuButton.getter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIBarButtonItem&gt;"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/ViewController.swift"
-                  timestampString = "500848534.975373"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "56">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.ViewController.menuButton.setter : weak Swift.ImplicitlyUnwrappedOptional&lt;__ObjC.UIBarButtonItem&gt;"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/ViewController.swift"
-                  timestampString = "500848534.976114"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "72">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.ViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.NSBundle&gt;) -&gt; ecoh.ViewController"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/ViewController.swift"
-                  timestampString = "500848534.977403"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "196">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.ViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;ecoh.ViewController&gt;"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/ViewController.swift"
-                  timestampString = "500848534.978473"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "22"
-                  endingLineNumber = "22"
-                  offsetFromSymbolStart = "144">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -179,38 +117,6 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "17"
             endingLineNumber = "17">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.VenueDetailViewController.(loadData () -&gt; ()).(closure #2)"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/VenueDetailViewController.swift"
-                  timestampString = "500848535.066674"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "106"
-                  endingLineNumber = "106"
-                  offsetFromSymbolStart = "48">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ecoh.VenueDetailViewController.(loadData () -&gt; ()).(closure #2)"
-                  moduleName = "ecoh"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/VenueDetailViewController.swift"
-                  timestampString = "500848535.06724"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "106"
-                  endingLineNumber = "106"
-                  offsetFromSymbolStart = "860">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -250,7 +156,7 @@
                   moduleName = "ecoh"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/MapData.swift"
-                  timestampString = "500848538.680384"
+                  timestampString = "503430175.940447"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -265,12 +171,27 @@
                   moduleName = "ecoh"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/MapData.swift"
-                  timestampString = "500848538.680997"
+                  timestampString = "503430175.942411"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "12"
-                  endingLineNumber = "12"
-                  offsetFromSymbolStart = "24">
+                  startingLineNumber = "11"
+                  endingLineNumber = "11"
+                  offsetFromSymbolStart = "16">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ecoh.MapData.__allocating_init () -&gt; ecoh.MapData"
+                  moduleName = "ecoh"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/Ryan/Dropbox/GitHub%20Repositories/ecoh-ios-app/ecoh/MapData.swift"
+                  timestampString = "503430175.944058"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
                </Location>
             </Locations>
          </BreakpointContent>

@@ -85,30 +85,22 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
         // Check for enabled location services
         if CLLocationManager.locationServicesEnabled() {
             // Check to see if user is in available app areas
-            if userInEnabledRegion() {
-                FIRAuth.auth()?.signIn(withEmail: email!, password: password!) { (user, error) in
-                    if error != nil {
-                        let alertController = UIAlertController(title: "Invalid Username/Password", message: "We're sorry, but either your username or password is entered incorrectly.", preferredStyle: UIAlertControllerStyle.alert)
-                        alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
+            FIRAuth.auth()?.signIn(withEmail: email!, password: password!) { (user, error) in
+                if error != nil {
+                    let alertController = UIAlertController(title: "Invalid Username/Password", message: "We're sorry, but either your username or password is entered incorrectly.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
                 
-                        self.present(alertController, animated: true, completion: nil)
-                        self.loadingView.isHidden = true
-                    } else {
-                        // Save info in case user exits app -- no longer have to login again
-                        let defaults = UserDefaults.standard
-                        defaults.set(email!, forKey: "email")
-                        defaults.set(password!, forKey: "password")
-                        defaults.synchronize()
-                
-                        self.performSegue(withIdentifier: "login", sender: nil)
-                    }
+                    self.present(alertController, animated: true, completion: nil)
+                    self.loadingView.isHidden = true
+                } else {
+                    // Save info in case user exits app -- no longer have to login again
+                    let defaults = UserDefaults.standard
+                    defaults.set(email!, forKey: "email")
+                    defaults.set(password!, forKey: "password")
+                    defaults.synchronize()
+            
+                    self.performSegue(withIdentifier: "login", sender: nil)
                 }
-            } else {
-                let alertController = UIAlertController(title: "App Not Yet Available In Your Area", message:
-                    "Sorry, but we're not in your area yet! Please check back for updates via our website (http://www.ecohapp.com), as we are coming to you soon!", preferredStyle: UIAlertControllerStyle.alert)
-                alertController.addAction(UIAlertAction(title: "Okay", style: UIAlertActionStyle.default,handler: nil))
-                self.present(alertController, animated: true, completion: nil)
-                self.loadingView.isHidden = true
             }
         } else {
             let alertController = UIAlertController(title: "Location Services Not Enabled", message:
@@ -128,21 +120,7 @@ class LoginViewController: UIViewController, CLLocationManagerDelegate {
     override var prefersStatusBarHidden : Bool {
         return true
     }
-    
-    func userInEnabledRegion() -> Bool {
-        // Chicago, IL
-        if let location = self.locationManager.location {
-            if (self.locationManager.location!.coordinate.latitude < 42.023722 && self.locationManager.location!.coordinate.latitude > 41.662509 && self.locationManager.location!.coordinate.longitude < -87.523956 && self.locationManager.location!.coordinate.longitude > -87.846680) {
-                return true
-            } else {
-                return false
-            }
-        } else {
-            
-        }
-        return false
-    }
-    
+
     func setupAesthetics() {
         self.loadingView.isHidden = true
         self.loadingView.layer.masksToBounds = false

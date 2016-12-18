@@ -98,6 +98,7 @@
 		945D83D01CFC33DA004676CF /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		945D83D21CFC8464004676CF /* TravelView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TravelView.xib; sourceTree = "<group>"; };
 		945D83D41CFC84E9004676CF /* TravelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TravelView.swift; sourceTree = "<group>"; };
+		94812F791E06EE1800420575 /* ecoh.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ecoh.entitlements; sourceTree = "<group>"; };
 		948CFC141D4880B0006531F1 /* TutorialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialViewController.swift; sourceTree = "<group>"; };
 		948CFC161D492C7E006531F1 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		94A738421D6C9D9900E75347 /* VenueDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VenueDetailViewController.swift; sourceTree = "<group>"; };
@@ -219,6 +220,7 @@
 		9447F8A11CFA27B200184B83 /* ecoh */ = {
 			isa = PBXGroup;
 			children = (
+				94812F791E06EE1800420575 /* ecoh.entitlements */,
 				941D76A21D46CB8B00CC6B05 /* Model */,
 				941D76A11D46CB8200CC6B05 /* View */,
 				941D76A31D46CB9100CC6B05 /* Controller */,
@@ -617,6 +619,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ecoh/ecoh.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Ryan Chiu (HUK2JHXKZ7)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = "";
@@ -645,6 +648,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = ecoh/ecoh.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Ecoh Technologies LLC (MDLYU7EWPF)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;

@@ -235,6 +235,8 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
                     self.plotVibes()
                 })
             }
+            
+            self.loadingView.isHidden = true
         }
     }
     
@@ -251,9 +253,6 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
         print("Starting monitoring \(region.identifier)")
-        
-        // When monitoring is set up, hide activity indicator
-        self.loadingView.isHidden = true
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
@@ -302,122 +301,87 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         self.performSegue(withIdentifier: "showVenueDetails", sender: nil)
     }
     
-    /*func mapView(mapView: MGLMapView, viewForAnnotation annotation: MGLAnnotation) -> MGLAnnotationView? {
+    func mapView(_ mapView: MGLMapView, viewFor annotation: MGLAnnotation) -> MGLAnnotationView? {
         // only concerned with point annotations.
         guard annotation is MGLPointAnnotation else {
             return nil
         }
-     
-        /*// Use the point annotation’s longitude value (as a string) as the reuse identifier for its view.
-         let reuseIdentifier = "\(annotation.coordinate.longitude)"
-     
-         // For better performance, always try to reuse existing annotations.
-         var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseIdentifier)
-     
-         // If there’s no reusable annotation view available, initialize a new one.
-         if annotationView == nil {
-            annotationView = CustomAnnotationView(reuseIdentifier: reuseIdentifier)
-            annotationView!.frame = CGRectMake(0, 0, 40, 40)
-     
-            // Set the annotation view’s background color to a value determined by its longitude.
-            let hue = CGFloat(annotation.coordinate.longitude) / 100
-            annotationView!.backgroundColor = UIColor(hue: hue, saturation: 0.5, brightness: 1, alpha: 1)
-         }*/
+        
+        let pinIndex = getIndexOfVibe(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
         
         let pulsator = Pulsator()
-     
-        let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "vibe")
-        let pin = annotationView!.annotation
-        let pinIndex = getIndexOfVibe(pin!.coordinate.latitude, longitude: pin!.coordinate.longitude)
-     
+        
+        // Define pulse colors
         let redColor = UIColor(red:1.00, green:0.38, blue:0.38, alpha:1.0)
         let orangeColor = UIColor(red: 0.9765, green: 0.7647, blue: 0, alpha: 1.0)
         let greenColor = UIColor(red: 0.4235, green: 0.8784, blue: 0, alpha: 1.0)
         let blueColor = UIColor(red: 0, green: 0.7686, blue: 0.8863, alpha: 1.0)
         let purpleColor = UIColor(red: 0.4902, green: 0, blue: 0.8667, alpha: 1.0)
      
-        if pinIndex < self.vibes.count && pinIndex >= 0 {
-            let vibe = self.vibes[pinIndex]
-            if (vibe.rating == 1) {
-                // red for LIT
-                pulsator.backgroundColor = redColor.cgColor
-            } else if (vibe.rating == 2) {
-                // orange for POPPIN
-                pulsator.backgroundColor = orangeColor.cgColor
-            } else if (vibe.rating == 3) {
-                // green for OK
-                pulsator.backgroundColor = greenColor.cgColor
-            } else if (vibe.rating == 4) {
-                // blue for YIKES
-                pulsator.backgroundColor = blueColor.cgColor
-            } else if (vibe.rating == 5) {
-                // purple for SNOOZIN
-                pulsator.backgroundColor = purpleColor.cgColor
-            } else {
-                // nothin there = no visible pulse
-                pulsator.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0).cgColor
+        let reuseIdentifier = "\(annotation.coordinate.longitude)"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseIdentifier)
+        
+        if annotationView == nil {
+            //annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+
+            if pinIndex < self.vibes.count && pinIndex >= 0 {
+                let vibe = self.vibes[pinIndex]
+                
+                // Add pulse to pin & set dimensions of pulse based on popularity of vibes
+                pulsator.numPulse = self.vibes[pinIndex].number / 10 + 1
+                pulsator.radius = 40.0
+                
+                if (vibe.rating == 1) {
+                    // red for LIT
+                    annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+                    pulsator.backgroundColor = redColor.cgColor
+                    annotationView!.layer.addSublayer(pulsator)
+                    pulsator.start()
+                } else if (vibe.rating == 2) {
+                    // orange for POPPIN
+                    annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+                    pulsator.backgroundColor = orangeColor.cgColor
+                    annotationView!.layer.addSublayer(pulsator)
+                    pulsator.start()
+                } else if (vibe.rating == 3) {
+                    // green for OK
+                    annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+                    pulsator.backgroundColor = greenColor.cgColor
+                    annotationView!.layer.addSublayer(pulsator)
+                    pulsator.start()
+                } else if (vibe.rating == 4) {
+                    // blue for YIKES
+                    annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+                    pulsator.backgroundColor = blueColor.cgColor
+                    annotationView!.layer.addSublayer(pulsator)
+                    pulsator.start()
+                } else if (vibe.rating == 5) {
+                    // purple for SNOOZIN
+                    annotationView = MGLAnnotationView(reuseIdentifier: reuseIdentifier)
+                    pulsator.backgroundColor = purpleColor.cgColor
+                    annotationView!.layer.addSublayer(pulsator)
+                    pulsator.start()
+                } else {
+                    // nothin there = no visible pulse
+                    //pulsator.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.0).cgColor
+                    
+                    // Add marker
+                    //annotationView = MGLAnnotationView(reuseIdentifier: "vibe")
+                    //pulsator.backgroundColor = blueColor.cgColor
+                }
+                
+                //pulsator.anchorPoint = CGPoint(x: annotationView!.frame.maxX, y: annotationView!.frame.maxY)
             }
-     
-            // Add pulse to pin & set dimensions of pulse based on popularity of vibes
-            pulsator.numPulse = self.vibes[pinIndex].number / 10 + 1
-            pulsator.radius = 40.0
-     
-            //pulsator.anchorPoint = CGPoint(x: annotationView!.frame.maxX, y: annotationView!.frame.maxY)
-            annotationView!.layer.addSublayer(pulsator)
-            pulsator.start()
         }
      
         return annotationView
-    }*/
+    }
     
     func mapView(_ mapView: MGLMapView, imageFor annotation: MGLAnnotation) -> MGLAnnotationImage? {
-        guard annotation is MGLPointAnnotation else {
-            return nil
-        }
-        
-        var annotationImage: MGLAnnotationImage? = nil
-        var markerImage: UIImage? = nil
-        var identifier: String = ""
-        
-        switch annotation.subtitle!! {
-        case "This place is \"POPPIN'\" right now!":
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "redVibe")
-            markerImage = UIImage(named: "RedVibe")!
-            identifier = "redVibe"
-        case "This place is \"pretty good\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "orangeVibe")
-            markerImage = UIImage(named: "OrangeVibe")!
-            identifier = "orangeVibe"
-        case "This place is \"alright\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "greenVibe")
-            markerImage = UIImage(named: "GreenVibe")!
-            identifier = "greenVibe"
-        case "This place is \"slow\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "blueVibe")
-            markerImage = UIImage(named: "BlueVibe")!
-            identifier = "blueVibe"
-        case "This place is \"dead\" right now.":
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "purpleVibe")
-            markerImage = UIImage(named: "PurpleVibe")!
-            identifier = "purpleVibe"
-        default:
-            annotationImage = mapView.dequeueReusableAnnotationImage(withIdentifier: "noVibe")
-            markerImage = UIImage(named: "VenueMarker")!
-            identifier = "noVibe"
-        }
+        var annotationImage: MGLAnnotationImage? = mapView.dequeueReusableAnnotationImage(withIdentifier: "\(annotation.coordinate.longitude)")
         
         if annotationImage == nil {
-            // The anchor point of an annotation is currently always the center. To
-            // shift the anchor point to the bottom of the annotation, the image
-            // asset includes transparent bottom padding equal to the original image
-            // height.
-            //
-            // To make this padding non-interactive, we create another image object
-            // with a custom alignment rect that excludes the padding.
-            markerImage = markerImage!.withAlignmentRectInsets(UIEdgeInsetsMake(0, 0, markerImage!.size.height/2, 0))
-            
-            // Initialize the ‘pisa’ annotation image with the UIImage we just loaded.
-            annotationImage = MGLAnnotationImage(image: markerImage!, reuseIdentifier: identifier)
+            annotationImage = MGLAnnotationImage(image: UIImage(named: "VenueMarker")!, reuseIdentifier: "vibe")
         }
         
         return annotationImage
@@ -541,8 +505,13 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     func setupAesthetics() {
         // Button setup
         for button in [self.vibeButton1, self.vibeButton2, self.vibeButton3, self.vibeButton4, self.vibeButton5] {
+            button?.layer.borderWidth = 1.0
             button?.layer.masksToBounds = false
-            button?.layer.cornerRadius = 25
+            button?.layer.cornerRadius = (button?.frame.size.width)! / 2.0 + 2
+            
+            print("Corner Radius: \(button?.layer.cornerRadius)")
+            print("Button Width: \(button?.frame.size.width)")
+            
             button?.clipsToBounds = true
         }
         
