@@ -13,6 +13,8 @@ import Firebase
 import FirebaseMessaging
 import GooglePlaces
 
+import Stripe
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -32,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Initialize Places API
         GMSPlacesClient.provideAPIKey("AIzaSyCaYoZUIpj0O9u31xAFmOjZGOCg_Z6mAXs")
+        
+        // Configure Stripe payments integration 
+        STPPaymentConfiguration.shared().publishableKey = "pk_test_bwwXwMkR5LBBnWoSqdm28a9f"
         
         // Set status bar to light color
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent

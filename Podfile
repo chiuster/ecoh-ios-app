@@ -11,6 +11,7 @@ pod "Firebase/Storage"
 pod "Firebase/Messaging"
 pod 'GooglePlaces'
 pod 'Mapbox-iOS-SDK'
+pod 'Stripe'
 pod 'SwiftyJSON'
 end
 

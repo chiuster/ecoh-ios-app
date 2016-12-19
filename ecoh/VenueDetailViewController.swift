@@ -53,6 +53,8 @@ class VenueDetailViewController : UIViewController {
     
     @IBOutlet weak var directionsButton: UIButton!
 
+    @IBOutlet weak var orderButton: UIBarButtonItem!
+    
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var websiteLabel: UILabel!
