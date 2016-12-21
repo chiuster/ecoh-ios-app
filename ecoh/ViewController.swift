@@ -296,7 +296,9 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
     
     func mapView(_ mapView: MGLMapView, annotation: MGLAnnotation, calloutAccessoryControlTapped control: UIControl) {
         self.selectedVenueName = annotation.title!!
-        self.selectedVenueAddress = annotation.subtitle!!
+        self.selectedVenueAddress = annotation.title!!
+        self.selectedLatitude = annotation.coordinate.latitude
+        self.selectedLongitude = annotation.coordinate.longitude
         self.selectedPlaceID = self.venueFromVibeCoordinates(annotation.coordinate.latitude, longitude: annotation.coordinate.longitude).placeID
         self.performSegue(withIdentifier: "showVenueDetails", sender: nil)
     }
@@ -507,7 +509,7 @@ class ViewController: UIViewController, MGLMapViewDelegate, CLLocationManagerDel
         for button in [self.vibeButton1, self.vibeButton2, self.vibeButton3, self.vibeButton4, self.vibeButton5] {
             button?.layer.borderWidth = 1.0
             button?.layer.masksToBounds = false
-            button?.layer.cornerRadius = (button?.frame.size.width)! / 2.0 + 2
+            button?.layer.cornerRadius = (button?.frame.size.width)! / 2.0
             
             print("Corner Radius: \(button?.layer.cornerRadius)")
             print("Button Width: \(button?.frame.size.width)")

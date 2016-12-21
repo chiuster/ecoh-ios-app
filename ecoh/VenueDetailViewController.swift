@@ -55,7 +55,6 @@ class VenueDetailViewController : UIViewController {
 
     @IBOutlet weak var orderButton: UIBarButtonItem!
     
-    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var websiteLabel: UILabel!
     @IBOutlet weak var priceLevelLabel: UILabel!
@@ -80,6 +79,8 @@ class VenueDetailViewController : UIViewController {
         
         print("Looking up venue with placeID \(self.placeID) ...")
         loadData()
+        
+        print("Latitude: \(latitude) and longitude: \(longitude)")
     }
     
     @IBAction func goToWebsite(_ sender: AnyObject) {
@@ -122,6 +123,7 @@ class VenueDetailViewController : UIViewController {
                     default:
                         self.priceLevelLabel.text = "Varies"
                 }
+                
             } else {
                 print("No place details for \(self.placeID)")
             }
@@ -182,21 +184,13 @@ class VenueDetailViewController : UIViewController {
         self.navigationController!.navigationBar.tintColor = UIColor.white
         self.directionsButton.layer.cornerRadius = 5
         
-        self.scrollView.contentSize = CGSize(width: 325, height: self.directionsButton.frame.minY)
+        //self.scrollView.contentSize = CGSize(width: 325, height: self.directionsButton.frame.minY)
         self.websiteButton.isHidden = true
     }
     
     // Get directions to address via Apple Maps
     func showOnMaps() {
-        let addressDict = [kABPersonAddressStreetKey as String: address]
-        let place = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary: addressDict)
-        let mapItem = MKMapItem(placemark: place)
-        let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
-        mapItem.openInMaps(launchOptions: options)
-    }
-    
-    func showOnMaps(_ address: String, latitude: Double, longitude: Double) {
-        let addressDict = [kABPersonAddressStreetKey as String: address]
+        let addressDict = [kABPersonAddressStreetKey as String: self.addressLabel.text]
         let place = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude), addressDictionary: addressDict)
         let mapItem = MKMapItem(placemark: place)
         let options = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
